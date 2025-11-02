@@ -3,7 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: default
-title: Mr Albrecht's Selection Parson's Problems
+title: Multiple Parson's Problems on One Page
 ---
 # Parsons Practice
 
