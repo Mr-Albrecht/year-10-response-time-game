@@ -190,58 +190,73 @@ title: "Multiple Parsons Problems on One Page"
       <input id="p1-newInstanceLink" value="Reset Problem" type="button" />
     </div>
 
-    <script type="text/javascript">
-    (function(){
-      var initial = "import time\n" +
-                    "import random\n" +
-                    "\n" +
-                    "# Reaction time game\n" +
-                    "print(\"Welcome to the Reaction Time Game!\")\n" +
-                    "print(\"When you see 'GO!', press Enter as fast as you can.\")\n" +
-                    "input(\"Press Enter to start...\")\n" +
-                    "\n" +
-                    "wait_time = random.uniform(2, 5)  # Wait for a random time between 2 and 5 seconds\n" +
-                    "print(\"Get ready...\")\n" +
-                    "time.sleep(wait_time)  # Pauses the program for the wait time\n" +
-                    "\n" +
-                    "# Start the timer\n" +
-                    "print(\"GO!\")\n" +
-                    "start_time = time.time()\n" +
-                    "\n" +
-                    "# Wait for user to react\n" +
-                    "input()\n" +
-                    "end_time = time.time()\n" +
-                    "\n" +
-                    "# Calculate and display reaction time\n" +
-                    "reaction_time = end_time - start_time\n" +
-                    "print(f\"Your reaction time was {reaction_time:.3f} seconds!\")\n";
-
-      var p1 = new ParsonsWidget({
-        sortableId: "p1-sortable",
-        trashId: "p1-sortableTrash",
-        max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.LineBasedGrader,
-        exec_limit: 2500,
-        can_indent: true,
-        x_indent: 50,
-        lang: "en",
-        show_feedback: true
-      });
-
-      p1.init(initial);
-      p1.shuffleLines();
-
-      $("#p1-newInstanceLink").on("click", function(e){
-        e.preventDefault();
-        p1.shuffleLines();
-      });
-
-      $("#p1-feedbackLink").on("click", function(e){
-        e.preventDefault();
-        p1.getFeedback();
-      });
-    })();
-    </script>
+<script type="text/javascript"> 
+(function(){
+  var initial = "import random
+\n" +
+    "import time
+\n" +
+    "
+\n" +
+    "print(&quot;Welcome to the Reaction Time Game! When you see &#039;GO!&#039;, press Enter as fast as you can.&quot;&quot;)
+\n" +
+    "input(&quot;Press Enter to start...&quot;)
+\n" +
+    "
+\n" +
+    "wait_time = random.uniform(2, 5) # Wait for a random time between 2 and 5 seconds
+\n" +
+    "print(&quot;Get ready...&quot;)
+\n" +
+    "time.sleep(wait_time) # Pauses the program for the wait time
+\n" +
+    "
+\n" +
+    "# Start the timer
+\n" +
+    "print(&quot;GO!&quot;)
+\n" +
+    "start_time = time.time()
+\n" +
+    "
+\n" +
+    "# Wait for user to react
+\n" +
+    "input()
+\n" +
+    "end_time = time.time()
+\n" +
+    "
+\n" +
+    "# Calculate and display reaction time
+\n" +
+    "reaction_time = end_time - start_time
+\n" +
+    "print(f&quot;Your reaction time was {reaction_time:.3f} seconds!&quot;) #the f allows us to use variables in the print function
+\n" +
+    "";
+  var parsonsPuzzle = new ParsonsWidget({
+    "sortableId": "Mr Albrecht's Basic Reaction Time Game-sortable",
+    "max_wrong_lines": 10,
+    "grader": ParsonsWidget._graders.LineBasedGrader,
+    "exec_limit": 2500,
+    "can_indent": true,
+    "x_indent": 50,
+    "lang": "en",
+    "show_feedback": true
+  });
+  parsonsPuzzle.init(initial);
+  parsonsPuzzle.shuffleLines();
+  $("#Mr Albrecht's Basic Reaction Time Game-newInstanceLink").click(function(event){ 
+      event.preventDefault(); 
+      parsonsPuzzle.shuffleLines(); 
+  }); 
+  $("#Mr Albrecht's Basic Reaction Time Game-feedbackLink").click(function(event){ 
+      event.preventDefault(); 
+      parsonsPuzzle.getFeedback(); 
+  }); 
+})(); 
+</script>
   </div>
 
   <!-- P2 -->
