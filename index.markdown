@@ -173,7 +173,7 @@ title: "Multiple Parsons Problems on One Page"
 
 <div class="dc-container">
   <div class="page-hero">
-    <span class="badge">GCSE Computer Science · Dulwich College</span>
+    <span class="badge">Mr Albrecht's Parson's Problems. GCSE Computer Science · Dulwich College</span>
     <h1>Parsons Practice</h1>
     <p>Drag lines to build working programs. Use <strong>Reset</strong> to reshuffle and <strong>Get Feedback</strong> to check your solution.</p>
   </div>
