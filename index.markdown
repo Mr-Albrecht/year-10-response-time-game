@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: title
 title: "Multiple Parsons Problems on One Page"
 ---
 
