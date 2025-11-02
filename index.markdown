@@ -25,14 +25,12 @@ title: "Multiple Parsons Problems on One Page"
     line-height: 1.65;
   }
 
-  /* Page wrapper */
   .dc-container {
     max-width: 1000px;
     margin: 40px auto 80px;
     padding: 0 20px;
   }
 
-  /* Header / hero */
   .page-hero{
     background: linear-gradient(135deg, var(--dc-bg), #142a4f 60%, var(--dc-accent-2));
     color: #fff;
@@ -73,7 +71,6 @@ title: "Multiple Parsons Problems on One Page"
     letter-spacing: .3px;
   }
 
-  /* Section headings */
   h2{
     font-size: 1.25rem;
     margin: 28px 0 12px;
@@ -82,7 +79,6 @@ title: "Multiple Parsons Problems on One Page"
   }
   h3{ margin-top: 18px; }
 
-  /* Puzzle card */
   .parsons-card{
     background: #fff;
     border: 1px solid var(--dc-border);
@@ -98,7 +94,6 @@ title: "Multiple Parsons Problems on One Page"
     flex-wrap: wrap;
   }
 
-  /* Inputs (your existing <input type="button">) */
   input[type="button"]{
     appearance: none;
     border: 1px solid #cbd5e1;
@@ -117,7 +112,6 @@ title: "Multiple Parsons Problems on One Page"
   input[type="button"]:active{
     transform: translateY(1px);
   }
-  /* Make the first button primary via sibling selector */
   .parsons-actions input[type="button"]:first-child{
     background: var(--dc-accent);
     color: #08343b;
@@ -127,7 +121,6 @@ title: "Multiple Parsons Problems on One Page"
     filter: brightness(1.03);
   }
 
-  /* Sortable areas from js-parsons */
   .sortable-code{
     background: #fafcff;
     border: 1px dashed #cbd5e1;
@@ -136,7 +129,6 @@ title: "Multiple Parsons Problems on One Page"
     padding: 10px;
     margin-bottom: 10px;
   }
-  /* If your parsons CSS adds list items, make them readable */
   .sortable-code li{
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -148,7 +140,6 @@ title: "Multiple Parsons Problems on One Page"
     font-size: 14px;
   }
 
-  /* Layout the two areas side-by-side on larger screens */
   .puzzle-grid{
     display: grid;
     gap: 12px;
@@ -160,7 +151,6 @@ title: "Multiple Parsons Problems on One Page"
     }
   }
 
-  /* Notes block */
   .notes{
     background: #fff;
     border: 1px solid var(--dc-border);
@@ -173,64 +163,76 @@ title: "Multiple Parsons Problems on One Page"
 
 <div class="dc-container">
   <div class="page-hero">
-    <span class="badge">Mr Albrecht's Parson's Problems. GCSE Computer Science · Dulwich College</span>
+    <span class="badge">Mr Albrecht's Parsons Problems · GCSE Computer Science · Dulwich College</span>
     <h1>Parsons Practice</h1>
-    <p>Drag code blocks to build working programs. Use <strong>Reset</strong> to reshuffle and <strong>Get Feedback</strong> to check your answer</p>
+    <p>Drag code blocks to build working programs. Use <strong>Reset</strong> to reshuffle and <strong>Get Feedback</strong> to check your answer.</p>
   </div>
 
-<script type="text/javascript">
-(function(){
-  var initial = "import time\n" +
-                "import random\n" +
-                "\n" +
-                "# Reaction time game\n" +
-                "print(\"Welcome to the Reaction Time Game!\")\n" +
-                "print(\"When you see 'GO!', press Enter as fast as you can.\")\n" +
-                "input(\"Press Enter to start...\")\n" +
-                "\n" +
-                "wait_time = random.uniform(2, 5)  # Wait for a random time between 2 and 5 seconds\n" +
-                "print(\"Get ready...\")\n" +
-                "time.sleep(wait_time)  # Pauses the program for the wait time\n" +
-                "\n" +
-                "# Start the timer\n" +
-                "print(\"GO!\")\n" +
-                "start_time = time.time()\n" +
-                "\n" +
-                "# Wait for user to react\n" +
-                "input()\n" +
-                "end_time = time.time()\n" +
-                "\n" +
-                "# Calculate and display reaction time\n" +
-                "reaction_time = end_time - start_time\n" +
-                "print(f\"Your reaction time was {reaction_time:.3f} seconds!\")\n";
+  <!-- P1 -->
+  <div class="parsons-card">
+    <h2>Basic Reaction Time Game</h2>
+    <div class="puzzle-grid">
+      <div id="p1-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 1"></div>
+      <div id="p1-sortable" class="sortable-code" aria-label="Workspace for puzzle 1"></div>
+    </div>
+    <div class="parsons-actions">
+      <input id="p1-feedbackLink" value="Get Feedback" type="button" />
+      <input id="p1-newInstanceLink" value="Reset Problem" type="button" />
+    </div>
 
-  var parsonsPuzzle = new ParsonsWidget({
-    sortableId: "p1-sortable",
-    trashId: "p1-sortableTrash",
-    max_wrong_lines: 10,
-    grader: ParsonsWidget._graders.LineBasedGrader,
-    exec_limit: 2500,
-    can_indent: true,
-    x_indent: 50,
-    lang: "en",
-    show_feedback: true
-  });
+    <script type="text/javascript">
+    (function(){
+      var initial = "import time\n" +
+                    "import random\n" +
+                    "\n" +
+                    "# Reaction time game\n" +
+                    "print(\"Welcome to the Reaction Time Game!\")\n" +
+                    "print(\"When you see 'GO!', press Enter as fast as you can.\")\n" +
+                    "input(\"Press Enter to start...\")\n" +
+                    "\n" +
+                    "wait_time = random.uniform(2, 5)  # Wait for a random time between 2 and 5 seconds\n" +
+                    "print(\"Get ready...\")\n" +
+                    "time.sleep(wait_time)  # Pauses the program for the wait time\n" +
+                    "\n" +
+                    "# Start the timer\n" +
+                    "print(\"GO!\")\n" +
+                    "start_time = time.time()\n" +
+                    "\n" +
+                    "# Wait for user to react\n" +
+                    "input()\n" +
+                    "end_time = time.time()\n" +
+                    "\n" +
+                    "# Calculate and display reaction time\n" +
+                    "reaction_time = end_time - start_time\n" +
+                    "print(f\\\"Your reaction time was {reaction_time:.3f} seconds!\\\")\n";
 
-  parsonsPuzzle.init(initial);
-  parsonsPuzzle.shuffleLines();
+      var p1 = new ParsonsWidget({
+        sortableId: "p1-sortable",
+        trashId: "p1-sortableTrash",
+        max_wrong_lines: 10,
+        grader: ParsonsWidget._graders.LineBasedGrader,
+        exec_limit: 2500,
+        can_indent: true,
+        x_indent: 50,
+        lang: "en",
+        show_feedback: true
+      });
 
-  $("#p1-newInstanceLink").on("click", function(event){
-    event.preventDefault();
-    parsonsPuzzle.shuffleLines();
-  });
+      p1.init(initial);
+      p1.shuffleLines();
 
-  $("#p1-feedbackLink").on("click", function(event){
-    event.preventDefault();
-    parsonsPuzzle.getFeedback();
-  });
-})();
-</script>
+      $("#p1-newInstanceLink").on("click", function(e){
+        e.preventDefault();
+        p1.shuffleLines();
+      });
 
+      $("#p1-feedbackLink").on("click", function(e){
+        e.preventDefault();
+        p1.getFeedback();
+      });
+    })();
+    </script>
+  </div>
 
   <!-- P2 -->
   <div class="parsons-card">
@@ -263,18 +265,8 @@ title: "Multiple Parsons Problems on One Page"
         x_indent: 50,
         lang: "en",
         vartests: [
-          {
-            message: "Testing with initial variable values x = 3 and y = 4",
-            initcode: "x = 3\ny = 4",
-            code: "",
-            variables: {}
-          },
-          {
-            message: "Testing with initial variable values x = 0 and y = 2",
-            initcode: "x = 0\ny = 2",
-            code: "",
-            variables: {}
-          }
+          { message: "Testing with initial variable values x = 3 and y = 4", initcode: "x = 3\ny = 4", code: "", variables: {} },
+          { message: "Testing with initial variable values x = 0 and y = 2", initcode: "x = 0\ny = 2", code: "", variables: {} }
         ]
       });
 
@@ -311,7 +303,6 @@ title: "Multiple Parsons Problems on One Page"
 
     <script type="text/javascript">
     (function(){
-      // Includes distractors "while True:" and "pass" on purpose.
       var initial = "def maxindex(arg):\n" +
                     "    ans = 0\n" +
                     "    for i in range(len(arg)):\n" +
@@ -384,14 +375,7 @@ title: "Multiple Parsons Problems on One Page"
         programmingLang: "java",
         executable_code: "for x in range(3):\n    output += 'I '\n    output += 'am '\n    output += 'a Java program '\npass",
         vartests: [
-          {
-            message: "Testing...",
-            initcode: "output = ''",
-            code: "",
-            variables: {
-              "output": "I am a Java program I am a Java program I am a Java program "
-            }
-          }
+          { message: "Testing...", initcode: "output = ''", code: "", variables: { "output": "I am a Java program I am a Java program I am a Java program " } }
         ]
       });
 
