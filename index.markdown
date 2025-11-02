@@ -3,47 +3,89 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: default
-title: Multiple Parson's Problems on One Page
+title: Mr Albrecht's Selection Parson's Problems
 ---
 # Parsons Practice
 
-## Parsons 1 (Line Based Grader)
-Re-arrange the blocks below so they print out "Hello World!"
+## Basic Reaction Time Game
 
-<div id="p1-sortableTrash" class="sortable-code"></div>
-<div id="p1-sortable" class="sortable-code"></div>
-<div style="clear:both;"></div>
-<p>
-    <input id="p1-feedbackLink" value="Get Feedback" type="button" />
-    <input id="p1-newInstanceLink" value="Reset Problem" type="button" />
-</p>
-<script type="text/javascript">
-(function() {
-  var initial = "print(\"Hello\")\n" +
-    "print(\" \")\n" +
-    "print(\"World\")\n" +
-    "print(\"!\")";
+<div id="Mr Albrecht's Basic Reaction Time Game-sortableTrash" class="sortable-code"></div> 
+<div id="Mr Albrecht's Basic Reaction Time Game-sortable" class="sortable-code"></div> 
+<div style="clear:both;"></div> 
+<p> 
+    <input id="Mr Albrecht's Basic Reaction Time Game-feedbackLink" value="Get Feedback" type="button" /> 
+    <input id="Mr Albrecht's Basic Reaction Time Game-newInstanceLink" value="Reset Problem" type="button" /> 
+</p> 
+<script type="text/javascript"> 
+(function(){
+  var initial = "import time
+\n" +
+    "import random
+\n" +
+    "
+\n" +
+    "# Reaction time game
+\n" +
+    "print(&quot;Welcome to the Reaction Time Game!&quot;)
+\n" +
+    "print(&quot;When you see &#039;GO!&#039;, press Enter as fast as you can.&quot;)
+\n" +
+    "input(&quot;Press Enter to start...&quot;)
+\n" +
+    "
+\n" +
+    "wait_time = random.uniform(2, 5) # Wait for a random time between 2 and 5 seconds
+\n" +
+    "print(&quot;Get ready...&quot;)
+\n" +
+    "time.sleep(wait_time) # Pauses the program for the wait time
+\n" +
+    "
+\n" +
+    "# Start the timer
+\n" +
+    "print(&quot;GO!&quot;)
+\n" +
+    "start_time = time.time()
+\n" +
+    "
+\n" +
+    "# Wait for user to react
+\n" +
+    "input()
+\n" +
+    "end_time = time.time()
+\n" +
+    "
+\n" +
+    "# Calculate and display reaction time
+\n" +
+    "reaction_time = end_time - start_time
+\n" +
+    "print(f&quot;Your reaction time was {reaction_time:.3f} seconds!&quot;) #the f allows us to use variables in the print function
+\n" +
+    "";
   var parsonsPuzzle = new ParsonsWidget({
-    "sortableId": "p1-sortable",
+    "sortableId": "Mr Albrecht's Basic Reaction Time Game-sortable",
     "max_wrong_lines": 10,
     "grader": ParsonsWidget._graders.LineBasedGrader,
     "exec_limit": 2500,
-    "can_indent": false,
+    "can_indent": true,
     "x_indent": 50,
     "lang": "en",
-    "trashId": "p1-sortableTrash"
+    "show_feedback": true
   });
   parsonsPuzzle.init(initial);
   parsonsPuzzle.shuffleLines();
-  $("#p1-newInstanceLink").click(function(event){
-      event.preventDefault();
-      parsonsPuzzle.shuffleLines();
-  });
-  $("#p1-feedbackLink").click(function(event){
-      event.preventDefault();
-      parsonsPuzzle.getFeedback();
-  });
-})();
+  $("#Mr Albrecht's Basic Reaction Time Game-newInstanceLink").click(function(event){ 
+      event.preventDefault(); 
+      parsonsPuzzle.shuffleLines(); 
+  }); 
+  $("#Mr Albrecht's Basic Reaction Time Game-feedbackLink").click(function(event){ 
+      event.preventDefault(); 
+      parsonsPuzzle.getFeedback(); 
+  }); 
+})(); 
 </script>
 
 
