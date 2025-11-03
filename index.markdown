@@ -168,7 +168,7 @@ title: "Multiple Parsons Problems on One Page"
     <p>Drag code blocks to build working programs. Use <strong>Reset</strong> to reshuffle and <strong>Get Feedback</strong> to check your answer.</p>
   </div>
 
-  <!-- P1 -->
+  <!-- P1 (unchanged) -->
   <div class="parsons-card">
     <h2>Basic Reaction Time Game</h2>
     <div class="puzzle-grid">
@@ -234,10 +234,10 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P2 -->
+  <!-- P2: Simple Selection (Year 10 friendly) -->
   <div class="parsons-card">
-    <h2>Parsons 2 (Variable Check Grader)</h2>
-    <p>Swap the values of <code>x</code> and <code>y</code> using helper variable <code>tmp</code>. Click variable names (<span class="jsparson-toggle"></span>) to toggle them.</p>
+    <h2>Parsons 2 — Coat or No Coat? (Selection)</h2>
+    <p>Set the variable <code>advice</code> based on the temperature <code>tempC</code>. If it's below 10°C set <code>"Wear a coat"</code>, otherwise <code>"No coat needed"</code>.</p>
 
     <div class="puzzle-grid">
       <div id="p2-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 2"></div>
@@ -251,9 +251,12 @@ title: "Multiple Parsons Problems on One Page"
 
     <script type="text/javascript">
     (function(){
-      var initial = "$$toggle::x::y::tmp$$ = $$toggle::x::y::tmp$$\n" +
-                    "$$toggle::x::y::tmp$$ = $$toggle::x::y::tmp$$\n" +
-                    "$$toggle::x::y::tmp$$ = $$toggle::x::y::tmp$$";
+      var initial = "# Set advice based on the tempC variable\n" +
+                    "if tempC < 10:\n" +
+                    "    advice = \"Wear a coat\"\n" +
+                    "else:\n" +
+                    "    advice = \"No coat needed\"\n" +
+                    "# print(advice)  # (optional)\n";
 
       var p2 = new ParsonsWidget({
         sortableId: "p2-sortable",
@@ -265,8 +268,8 @@ title: "Multiple Parsons Problems on One Page"
         x_indent: 50,
         lang: "en",
         vartests: [
-          { message: "Testing with initial variable values x = 3 and y = 4", initcode: "x = 3\ny = 4", code: "", variables: {} },
-          { message: "Testing with initial variable values x = 0 and y = 2", initcode: "x = 0\ny = 2", code: "", variables: {} }
+          { message: "Testing with tempC = 5", initcode: "tempC = 5", code: "", variables: { "advice": "Wear a coat" } },
+          { message: "Testing with tempC = 15", initcode: "tempC = 15", code: "", variables: { "advice": "No coat needed" } }
         ]
       });
 
@@ -286,10 +289,10 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P3 -->
+  <!-- P3: Function with Selection (Unit tests) -->
   <div class="parsons-card">
-    <h2>Parsons 3 (Unit Test Grader)</h2>
-    <p>Build a function that returns the index of the largest element in the array.</p>
+    <h2>Parsons 3 — Max of Two (Selection + Functions)</h2>
+    <p>Write a function <code>max_of_two(a, b)</code> that returns the larger number. Use selection (<code>if</code>/<code>else</code>).</p>
 
     <div class="puzzle-grid">
       <div id="p3-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 3"></div>
@@ -303,14 +306,24 @@ title: "Multiple Parsons Problems on One Page"
 
     <script type="text/javascript">
     (function(){
-      var initial = "def maxindex(arg):\n" +
-                    "    ans = 0\n" +
-                    "    for i in range(len(arg)):\n" +
-                    "        if arg[i] > arg[ans]:\n" +
-                    "            ans = i\n" +
+      var initial = "def max_of_two(a, b):\n" +
+                    "    # return the larger value using selection\n" +
+                    "    if a > b:\n" +
+                    "        return a\n" +
+                    "    else:\n" +
+                    "        return b\n" +
                     "    while True:\n" +
-                    "        pass\n" +
-                    "    return ans\n";
+                    "        pass\n";
+
+      var tests = "import unittestparson\n" +
+                  "class myTests(unittestparson.unittest):\n" +
+                  "  def test_0(self):\n" +
+                  "    self.assertEqual(max_of_two(3,5), 5)\n" +
+                  "  def test_1(self):\n" +
+                  "    self.assertEqual(max_of_two(-2,-7), -2)\n" +
+                  "  def test_2(self):\n" +
+                  "    self.assertEqual(max_of_two(10,10), 10)\n" +
+                  "_test_result = myTests().main()";
 
       var p3 = new ParsonsWidget({
         sortableId: "p3-sortable",
@@ -321,7 +334,7 @@ title: "Multiple Parsons Problems on One Page"
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        unittests: "import unittestparson\nclass myTests(unittestparson.unittest):\n  def test_0(self):\n    self.assertEqual(,,)\n_test_result = myTests().main()"
+        unittests: tests
       });
 
       p3.init(initial);
@@ -340,10 +353,10 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P4 -->
+  <!-- P4: Java selection with LanguageTranslationGrader -->
   <div class="parsons-card">
-    <h2>Parsons 4 (Language Translation Grader)</h2>
-    <p>Print <code>"I am a Java program"</code> three times using a <code>for</code> loop.</p>
+    <h2>Parsons 4 — Pass/Merit/Distinction (Java Selection)</h2>
+    <p>In Java, print the correct grade for a <code>score</code>: <strong>Distinction</strong> (&#x2265; 75), <strong>Merit</strong> (&#x2265; 60), otherwise <strong>Pass</strong>. Build the <code>if/else if/else</code> chain.</p>
 
     <div class="puzzle-grid">
       <div id="p4-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 4"></div>
@@ -357,25 +370,40 @@ title: "Multiple Parsons Problems on One Page"
 
     <script type="text/javascript">
     (function(){
-      var initial = "for (int i = 0; i < 3; i++) {\n" +
-                    "  System.out.print(\\\"I \\\");\n" +
-                    "  System.out.print(\\\"am \\\");\n" +
-                    "  System.out.print(\\\"a Java program \\\");\n" +
+      var initial = "if (score >= 75) {\n" +
+                    "  System.out.print(\\\"Distinction\\\");\n" +
+                    "} else if (score >= 60) {\n" +
+                    "  System.out.print(\\\"Merit\\\");\n" +
+                    "} else {\n" +
+                    "  System.out.print(\\\"Pass\\\");\n" +
                     "}";
 
       var p4 = new ParsonsWidget({
         sortableId: "p4-sortable",
         trashId: "p4-sortableTrash",
-        max_wrong_lines: 1,
+        max_wrong_lines: 2,
         grader: ParsonsWidget._graders.LanguageTranslationGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
         programmingLang: "java",
-        executable_code: "for x in range(3):\n    output += 'I '\n    output += 'am '\n    output += 'a Java program '\npass",
+        // Python model of expected behaviour concatenating to 'output'
+        executable_code: "\n" +
+          "def emit(score):\n" +
+          "    global output\n" +
+          "    if score >= 75:\n" +
+          "        output += 'Distinction'\n" +
+          "    elif score >= 60:\n" +
+          "        output += 'Merit'\n" +
+          "    else:\n" +
+          "        output += 'Pass'\n" +
+          "emit(test_score)\n" +
+          "pass",
         vartests: [
-          { message: "Testing...", initcode: "output = ''", code: "", variables: { "output": "I am a Java program I am a Java program I am a Java program " } }
+          { message: "Testing score = 82", initcode: "output = ''\ntest_score = 82", code: "", variables: { "output": "Distinction" } },
+          { message: "Testing score = 67", initcode: "output = ''\ntest_score = 67", code: "", variables: { "output": "Merit" } },
+          { message: "Testing score = 41", initcode: "output = ''\ntest_score = 41", code: "", variables: { "output": "Pass" } }
         ]
       });
 
@@ -395,10 +423,10 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P5 -->
+  <!-- P5: Harder selection with validation (Unit tests) -->
   <div class="parsons-card">
-    <h2>Parsons 5 (Turtle Grader)</h2>
-    <p>Construct a program that draws an equilateral triangle.</p>
+    <h2>Parsons 5 — Triangle Classifier (Selection + Validation)</h2>
+    <p>Write a function <code>triangle_type(a, b, c)</code> that returns one of <code>"equilateral"</code>, <code>"isosceles"</code>, <code>"scalene"</code>, or <code>"invalid"</code>.<br>Return <strong>"invalid"</strong> if any side is non-positive or the triangle inequality fails.</p>
 
     <div class="puzzle-grid">
       <div id="p5-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 5"></div>
@@ -412,23 +440,46 @@ title: "Multiple Parsons Problems on One Page"
 
     <script type="text/javascript">
     (function(){
-      var initial = "REPEAT 3 TIMES\n" +
-                    "  forward(100)\n" +
-                    "  left(120)\n" +
-                    "ENDREPEAT";
+      var initial = "def triangle_type(a, b, c):\n" +
+                    "    # validate sides\n" +
+                    "    if a <= 0 or b <= 0 or c <= 0:\n" +
+                    "        return \"invalid\"\n" +
+                    "    if a + b <= c or a + c <= b or b + c <= a:\n" +
+                    "        return \"invalid\"\n" +
+                    "    # classify\n" +
+                    "    if a == b == c:\n" +
+                    "        return \"equilateral\"\n" +
+                    "    elif a == b or a == c or b == c:\n" +
+                    "        return \"isosceles\"\n" +
+                    "    else:\n" +
+                    "        return \"scalene\"\n" +
+                    "    while True:\n" +
+                    "        pass\n";
+
+      var tests = "import unittestparson\n" +
+                  "class myTests(unittestparson.unittest):\n" +
+                  "  def test_equilateral(self):\n" +
+                  "    self.assertEqual(triangle_type(5,5,5), 'equilateral')\n" +
+                  "  def test_isosceles(self):\n" +
+                  "    self.assertEqual(triangle_type(4,4,3), 'isosceles')\n" +
+                  "  def test_scalene(self):\n" +
+                  "    self.assertEqual(triangle_type(3,4,5), 'scalene')\n" +
+                  "  def test_invalid_zero(self):\n" +
+                  "    self.assertEqual(triangle_type(0,4,5), 'invalid')\n" +
+                  "  def test_invalid_ineq(self):\n" +
+                  "    self.assertEqual(triangle_type(1,2,8), 'invalid')\n" +
+                  "_test_result = myTests().main()";
 
       var p5 = new ParsonsWidget({
         sortableId: "p5-sortable",
         trashId: "p5-sortableTrash",
-        max_wrong_lines: 1,
-        grader: ParsonsWidget._graders.TurtleGrader,
+        max_wrong_lines: 10,
+        grader: ParsonsWidget._graders.UnitTestGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        programmingLang: "pseudo",
-        executable_code: "for i in range(0,3):\nmyTurtle.forward(100)\nmyTurtle.left(120)\npass",
-        turtleModelCode: "modelTurtle.forward(100)\nmodelTurtle.left(120)\nmodelTurtle.forward(100)\nmodelTurtle.left(120)\nmodelTurtle.forward(100)\nmodelTurtle.left(120)\n"
+        unittests: tests
       });
 
       p5.init(initial);
@@ -449,7 +500,7 @@ title: "Multiple Parsons Problems on One Page"
 
   <div class="notes">
     <strong>Implementation notes</strong><br>
-    If you host multiple Parsons problems on one page, ensure each has a unique prefix (<code>p1</code>, <code>p2</code>, …). If you prefer one problem per page, add <em>Next</em> links below.
+    These P2–P5 tasks focus on <em>selection</em> to match OCR GCSE fundamentals and ramp up in difficulty from a single if/else (Year 10 friendly) to multi-branch logic with validation. Keep each widget's IDs unique (<code>p2</code>–<code>p5</code>). If you prefer one problem per page, add <em>Next</em> links below.
     <br><br>
     <a href="./parsons/example1.html">Next</a>
   </div>
