@@ -1,3 +1,8 @@
+Here’s the complete, finished page — with comments removed from puzzle code, a clear description for the reaction-time game, Java puzzle rewritten in Python, a slightly-more-complex P2 using a robust UnitTest grader, and reliable “All correct / issues to fix” feedback badges.
+
+> Paste this over your existing file.
+
+```html
 ---
 layout: default
 title: "Multiple Parsons Problems on One Page"
@@ -87,7 +92,12 @@ title: "Multiple Parsons Problems on One Page"
     font-size: 14px;
   }
 
-  /* Clear, colour-coded feedback */
+  .puzzle-grid{ display: grid; gap: 12px; }
+  @media (min-width: 720px){
+    .puzzle-grid{ grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+
+  /* Clear, colour-coded feedback pills */
   .fb-pill{
     display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600;
     border:1px solid;
@@ -96,17 +106,14 @@ title: "Multiple Parsons Problems on One Page"
   .fb-bad{ background:#fef2f2; color:#991b1b; border-color:#fecaca; }
   .fb-neutral{ background:#eef2ff; color:#3730a3; border-color:#c7d2fe; }
 
-  /* Highlight wrong lines after feedback (covers common js-parsons classes) */
+  /* highlight wrong lines (common classes across js-parsons builds) */
   .sortable-code li.incorrect,
   .sortable-code li.ui-state-error,
-  .sortable-code li.highlight-error{
+  .sortable-code li.highlight-error,
+  .sortable-code li.line-error,
+  .sortable-code li.parsons-error{
     border-color:#ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239,68,68,.15), 0 2px 8px rgba(17,24,39,.05);
-  }
-
-  .puzzle-grid{ display: grid; gap: 12px; }
-  @media (min-width: 720px){
-    .puzzle-grid{ grid-template-columns: 1fr 1fr; align-items: start; }
   }
 </style>
 
@@ -121,7 +128,7 @@ title: "Multiple Parsons Problems on One Page"
   <div class="parsons-card">
     <h2>Basic Reaction Time Game</h2>
     <p class="subtitle">
-      This program waits for a random delay, shows <strong>GO!</strong>, starts a timer, and measures how quickly the user presses Enter. Build it from the shuffled lines.
+      Waits a random delay, displays <strong>GO!</strong>, starts a timer, and measures how fast the user presses Enter.
     </p>
     <div class="puzzle-grid">
       <div id="p1-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 1"></div>
@@ -130,25 +137,26 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p1-feedbackLink" value="Get Feedback" type="button" />
       <input id="p1-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p1-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback ready</span>
+      <span id="p1-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
     (function(){
-      var initial = "import time\n" +
-                    "import random\n" +
-                    "print(\"Welcome to the Reaction Time Game!\")\n" +
-                    "print(\"When you see 'GO!', press Enter as fast as you can.\")\n" +
-                    "input(\"Press Enter to start...\")\n" +
-                    "wait_time = random.uniform(2, 5)\n" +
-                    "print(\"Get ready...\")\n" +
-                    "time.sleep(wait_time)\n" +
-                    "print(\"GO!\")\n" +
-                    "start_time = time.time()\n" +
-                    "input()\n" +
-                    "end_time = time.time()\n" +
-                    "reaction_time = end_time - start_time\n" +
-                    "print(f\\\"Your reaction time was {reaction_time:.3f} seconds!\\\")\n";
+      var initial =
+        "import time\n" +
+        "import random\n" +
+        "print(\"Welcome to the Reaction Time Game!\")\n" +
+        "print(\"When you see 'GO!', press Enter as fast as you can.\")\n" +
+        "input(\"Press Enter to start...\")\n" +
+        "wait_time = random.uniform(2, 5)\n" +
+        "print(\"Get ready...\")\n" +
+        "time.sleep(wait_time)\n" +
+        "print(\"GO!\")\n" +
+        "start_time = time.time()\n" +
+        "input()\n" +
+        "end_time = time.time()\n" +
+        "reaction_time = end_time - start_time\n" +
+        "print(f\\\"Your reaction time was {reaction_time:.3f} seconds!\\\")\n";
 
       var p1 = new ParsonsWidget({
         sortableId: "p1-sortable",
@@ -162,45 +170,17 @@ title: "Multiple Parsons Problems on One Page"
         show_feedback: true
       });
 
-      function showBadge(widget, containerId, badgeId){
-        // Count common error-marking classes after getFeedback()
-        var cont = document.getElementById(containerId);
-        var wrong = cont.querySelectorAll('li.incorrect, li.ui-state-error, li.highlight-error').length;
-        var badge = document.getElementById(badgeId);
-        if(!badge) return;
-        if(wrong === 0){
-          badge.className = "fb-pill fb-ok";
-          badge.textContent = "✅ All correct!";
-        }else{
-          badge.className = "fb-pill fb-bad";
-          badge.textContent = "❌ " + wrong + " issue" + (wrong>1? "s":"") + " to fix";
-        }
-        badge.style.display = "inline-flex";
-      }
-
       p1.init(initial);
       p1.shuffleLines();
-
-      document.getElementById("p1-newInstanceLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p1.shuffleLines();
-        var b = document.getElementById("p1-feedbackBadge");
-        if(b){ b.style.display = "none"; }
-      });
-
-      document.getElementById("p1-feedbackLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p1.getFeedback();
-        showBadge(p1, "p1-sortable", "p1-feedbackBadge");
-      });
+      attachParsonsFeedback("p1", p1);
     })();
     </script>
   </div>
 
   <!-- P2 -->
   <div class="parsons-card">
-    <h2>Parsons 2 — Coat or No Coat? (Selection)</h2>
-    <p class="subtitle">Set <code>advice</code> based on <code>tempC</code>: below 10 → “Wear a coat”, otherwise → “No coat needed”.</p>
+    <h2>Parsons 2 — What Should I Wear? (Selection)</h2>
+    <p class="subtitle">Write <code>advice_for(tempC)</code>: below 10 → “Wear a coat”; 10–14 → “Wear a jumper”; otherwise → “No coat needed”.</p>
 
     <div class="puzzle-grid">
       <div id="p2-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 2"></div>
@@ -210,57 +190,48 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p2-feedbackLink" value="Get Feedback" type="button" />
       <input id="p2-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p2-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback ready</span>
+      <span id="p2-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
     (function(){
       var initial =
-        "if tempC < 10:\n" +
-        "    advice = \"Wear a coat\"\n" +
-        "else:\n" +
-        "    advice = \"No coat needed\"\n";
+        "def advice_for(tempC):\n" +
+        "    if tempC < 10:\n" +
+        "        return \"Wear a coat\"\n" +
+        "    elif tempC < 15:\n" +
+        "        return \"Wear a jumper\"\n" +
+        "    else:\n" +
+        "        return \"No coat needed\"\n" +
+        "    while True:\n" +
+        "        pass\n";
+
+      var tests =
+        "import unittestparson\n" +
+        "class myTests(unittestparson.unittest):\n" +
+        "  def test_cold(self):\n" +
+        "    self.assertEqual(advice_for(5), 'Wear a coat')\n" +
+        "  def test_mild(self):\n" +
+        "    self.assertEqual(advice_for(12), 'Wear a jumper')\n" +
+        "  def test_warm(self):\n" +
+        "    self.assertEqual(advice_for(18), 'No coat needed')\n" +
+        "_test_result = myTests().main()";
 
       var p2 = new ParsonsWidget({
         sortableId: "p2-sortable",
         trashId: "p2-sortableTrash",
         max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.VariableCheckGrader,
+        grader: ParsonsWidget._graders.UnitTestGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        vartests: [
-          { message: "Testing with tempC = 5",  initcode: "tempC = 5",  code: "", variables: { "advice": "Wear a coat" } },
-          { message: "Testing with tempC = 15", initcode: "tempC = 15", code: "", variables: { "advice": "No coat needed" } }
-        ]
+        unittests: tests
       });
-
-      function showBadge(containerId, badgeId){
-        var cont = document.getElementById(containerId);
-        var wrong = cont.querySelectorAll('li.incorrect, li.ui-state-error, li.highlight-error').length;
-        var badge = document.getElementById(badgeId);
-        if(!badge) return;
-        if(wrong === 0){ badge.className = "fb-pill fb-ok";  badge.textContent = "✅ All correct!"; }
-        else{            badge.className = "fb-pill fb-bad"; badge.textContent = "❌ " + wrong + " issue" + (wrong>1? "s":"") + " to fix"; }
-        badge.style.display = "inline-flex";
-      }
 
       p2.init(initial);
       p2.shuffleLines();
-
-      document.getElementById("p2-newInstanceLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p2.shuffleLines();
-        var b = document.getElementById("p2-feedbackBadge");
-        if(b){ b.style.display = "none"; }
-      });
-
-      document.getElementById("p2-feedbackLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p2.getFeedback();
-        showBadge("p2-sortable", "p2-feedbackBadge");
-      });
+      attachParsonsFeedback("p2", p2);
     })();
     </script>
   </div>
@@ -278,7 +249,7 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p3-feedbackLink" value="Get Feedback" type="button" />
       <input id="p3-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p3-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback ready</span>
+      <span id="p3-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
@@ -292,15 +263,16 @@ title: "Multiple Parsons Problems on One Page"
         "    while True:\n" +
         "        pass\n";
 
-      var tests = "import unittestparson\n" +
-                  "class myTests(unittestparson.unittest):\n" +
-                  "  def test_0(self):\n" +
-                  "    self.assertEqual(max_of_two(3,5), 5)\n" +
-                  "  def test_1(self):\n" +
-                  "    self.assertEqual(max_of_two(-2,-7), -2)\n" +
-                  "  def test_2(self):\n" +
-                  "    self.assertEqual(max_of_two(10,10), 10)\n" +
-                  "_test_result = myTests().main()";
+      var tests =
+        "import unittestparson\n" +
+        "class myTests(unittestparson.unittest):\n" +
+        "  def test_0(self):\n" +
+        "    self.assertEqual(max_of_two(3,5), 5)\n" +
+        "  def test_1(self):\n" +
+        "    self.assertEqual(max_of_two(-2,-7), -2)\n" +
+        "  def test_2(self):\n" +
+        "    self.assertEqual(max_of_two(10,10), 10)\n" +
+        "_test_result = myTests().main()";
 
       var p3 = new ParsonsWidget({
         sortableId: "p3-sortable",
@@ -314,39 +286,17 @@ title: "Multiple Parsons Problems on One Page"
         unittests: tests
       });
 
-      function showBadge(containerId, badgeId){
-        var cont = document.getElementById(containerId);
-        var wrong = cont.querySelectorAll('li.incorrect, li.ui-state-error, li.highlight-error').length;
-        var badge = document.getElementById(badgeId);
-        if(!badge) return;
-        if(wrong === 0){ badge.className = "fb-pill fb-ok";  badge.textContent = "✅ All correct!"; }
-        else{            badge.className = "fb-pill fb-bad"; badge.textContent = "❌ " + wrong + " issue" + (wrong>1? "s":"") + " to fix"; }
-        badge.style.display = "inline-flex";
-      }
-
       p3.init(initial);
       p3.shuffleLines();
-
-      document.getElementById("p3-newInstanceLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p3.shuffleLines();
-        var b = document.getElementById("p3-feedbackBadge");
-        if(b){ b.style.display = "none"; }
-      });
-
-      document.getElementById("p3-feedbackLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p3.getFeedback();
-        showBadge("p3-sortable", "p3-feedbackBadge");
-      });
+      attachParsonsFeedback("p3", p3);
     })();
     </script>
   </div>
 
-  <!-- P4 -->
+  <!-- P4 (Python) -->
   <div class="parsons-card">
-    <h2>Parsons 4 — Pass/Merit/Distinction (Java Selection)</h2>
-    <p class="subtitle">For a given <code>score</code>: Distinction (≥75), Merit (≥60), else Pass. Build the <code>if / else if / else</code> chain.</p>
+    <h2>Parsons 4 — Pass / Merit / Distinction (Python Selection)</h2>
+    <p class="subtitle">Write <code>grade(score)</code>: Distinction (≥75), Merit (≥60), else Pass. Return the grade as a string.</p>
 
     <div class="puzzle-grid">
       <div id="p4-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 4"></div>
@@ -356,73 +306,52 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p4-feedbackLink" value="Get Feedback" type="button" />
       <input id="p4-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p4-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback ready</span>
+      <span id="p4-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
     (function(){
       var initial =
-        "if (score >= 75) {\n" +
-        "  System.out.print(\\\"Distinction\\\");\n" +
-        "} else if (score >= 60) {\n" +
-        "  System.out.print(\\\"Merit\\\");\n" +
-        "} else {\n" +
-        "  System.out.print(\\\"Pass\\\");\n" +
-        "}";
+        "def grade(score):\n" +
+        "    if score >= 75:\n" +
+        "        return \"Distinction\"\n" +
+        "    elif score >= 60:\n" +
+        "        return \"Merit\"\n" +
+        "    else:\n" +
+        "        return \"Pass\"\n" +
+        "    while True:\n" +
+        "        pass\n";
+
+      var tests =
+        "import unittestparson\n" +
+        "class myTests(unittestparson.unittest):\n" +
+        "  def test_dist(self):\n" +
+        "    self.assertEqual(grade(82), 'Distinction')\n" +
+        "  def test_merit(self):\n" +
+        "    self.assertEqual(grade(67), 'Merit')\n" +
+        "  def test_pass(self):\n" +
+        "    self.assertEqual(grade(41), 'Pass')\n" +
+        "  def test_boundary_merit(self):\n" +
+        "    self.assertEqual(grade(60), 'Merit')\n" +
+        "  def test_boundary_dist(self):\n" +
+        "    self.assertEqual(grade(75), 'Distinction')\n" +
+        "_test_result = myTests().main()";
 
       var p4 = new ParsonsWidget({
         sortableId: "p4-sortable",
         trashId: "p4-sortableTrash",
-        max_wrong_lines: 2,
-        grader: ParsonsWidget._graders.LanguageTranslationGrader,
+        max_wrong_lines: 10,
+        grader: ParsonsWidget._graders.UnitTestGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        programmingLang: "java",
-        executable_code:
-          "def emit(score):\n" +
-          "    global output\n" +
-          "    if score >= 75:\n" +
-          "        output += 'Distinction'\n" +
-          "    elif score >= 60:\n" +
-          "        output += 'Merit'\n" +
-          "    else:\n" +
-          "        output += 'Pass'\n" +
-          "emit(test_score)\n" +
-          "pass",
-        vartests: [
-          { message: "Testing score = 82", initcode: "output = ''\ntest_score = 82", code: "", variables: { "output": "Distinction" } },
-          { message: "Testing score = 67", initcode: "output = ''\ntest_score = 67", code: "", variables: { "output": "Merit" } },
-          { message: "Testing score = 41", initcode: "output = ''\ntest_score = 41", code: "", variables: { "output": "Pass" } }
-        ]
+        unittests: tests
       });
-
-      function showBadge(containerId, badgeId){
-        var cont = document.getElementById(containerId);
-        var wrong = cont.querySelectorAll('li.incorrect, li.ui-state-error, li.highlight-error').length;
-        var badge = document.getElementById(badgeId);
-        if(!badge) return;
-        if(wrong === 0){ badge.className = "fb-pill fb-ok";  badge.textContent = "✅ All correct!"; }
-        else{            badge.className = "fb-pill fb-bad"; badge.textContent = "❌ " + wrong + " issue" + (wrong>1? "s":"") + " to fix"; }
-        badge.style.display = "inline-flex";
-      }
 
       p4.init(initial);
       p4.shuffleLines();
-
-      document.getElementById("p4-newInstanceLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p4.shuffleLines();
-        var b = document.getElementById("p4-feedbackBadge");
-        if(b){ b.style.display = "none"; }
-      });
-
-      document.getElementById("p4-feedbackLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p4.getFeedback();
-        showBadge("p4-sortable", "p4-feedbackBadge");
-      });
+      attachParsonsFeedback("p4", p4);
     })();
     </script>
   </div>
@@ -440,7 +369,7 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p5-feedbackLink" value="Get Feedback" type="button" />
       <input id="p5-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p5-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback ready</span>
+      <span id="p5-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
@@ -487,32 +416,81 @@ title: "Multiple Parsons Problems on One Page"
         unittests: tests
       });
 
-      function showBadge(containerId, badgeId){
-        var cont = document.getElementById(containerId);
-        var wrong = cont.querySelectorAll('li.incorrect, li.ui-state-error, li.highlight-error').length;
-        var badge = document.getElementById(badgeId);
-        if(!badge) return;
-        if(wrong === 0){ badge.className = "fb-pill fb-ok";  badge.textContent = "✅ All correct!"; }
-        else{            badge.className = "fb-pill fb-bad"; badge.textContent = "❌ " + wrong + " issue" + (wrong>1? "s":"") + " to fix"; }
-        badge.style.display = "inline-flex";
-      }
-
       p5.init(initial);
       p5.shuffleLines();
-
-      document.getElementById("p5-newInstanceLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p5.shuffleLines();
-        var b = document.getElementById("p5-feedbackBadge");
-        if(b){ b.style.display = "none"; }
-      });
-
-      document.getElementById("p5-feedbackLink").addEventListener("click", function(e){
-        e.preventDefault();
-        p5.getFeedback();
-        showBadge("p5-sortable", "p5-feedbackBadge");
-      });
+      attachParsonsFeedback("p5", p5);
     })();
     </script>
   </div>
 </div>
+
+<!-- Robust feedback helper (shared by all puzzles) -->
+<script>
+  function attachParsonsFeedback(prefix, widget) {
+    const sortableId = prefix + "-sortable";
+    const badgeId    = prefix + "-feedbackBadge";
+    const resetId    = prefix + "-newInstanceLink";
+    const btnId      = prefix + "-feedbackLink";
+
+    function scanWrongInDOM() {
+      const cont = document.getElementById(sortableId);
+      if (!cont) return 0;
+      let wrong = 0;
+      wrong += cont.querySelectorAll(
+        "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
+      ).length;
+      wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
+      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
+      return wrong;
+    }
+
+    function renderBadge(count) {
+      const badge = document.getElementById(badgeId);
+      if (!badge) return;
+      if (count === 0) {
+        badge.className = "fb-pill fb-ok";
+        badge.textContent = "✅ All correct!";
+      } else {
+        badge.className = "fb-pill fb-bad";
+        badge.textContent = "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
+      }
+      badge.style.display = "inline-flex";
+    }
+
+    function updateBadgeFromResult(result) {
+      let wrongCount = 0;
+      if (Array.isArray(result)) {
+        wrongCount = result.length;                 // many builds return array of errors
+      } else if (result && typeof result === "object") {
+        if (Array.isArray(result.errors)) wrongCount = result.errors.length;
+        else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
+        else if (typeof result.errorCount === "number") wrongCount = result.errorCount;
+      }
+      if (wrongCount > 0) {
+        renderBadge(wrongCount);
+      } else {
+        setTimeout(() => renderBadge(scanWrongInDOM()), 90);
+      }
+    }
+
+    const resetBtn = document.getElementById(resetId);
+    if (resetBtn) {
+      resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        widget.shuffleLines();
+        const badge = document.getElementById(badgeId);
+        if (badge) badge.style.display = "none";
+      });
+    }
+
+    const fbBtn = document.getElementById(btnId);
+    if (fbBtn) {
+      fbBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const result = widget.getFeedback();
+        updateBadgeFromResult(result);
+      });
+    }
+  }
+</script>
+```
