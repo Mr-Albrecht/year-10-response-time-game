@@ -128,9 +128,48 @@ title: "Multiple Parsons Problems on One Page"
         "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
       ).length;
       wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
-      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
+      wrong += cont.querySelectorAll(
+        "li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']"
+      ).length;
       return wrong;
     }
+
+    function renderBadge(count) {
+      const badge = document.getElementById(badgeId);
+      if (!badge) return;
+      if (count === 0) {
+        badge.className = "fb-pill fb-ok";
+        badge.textContent = "✅ All correct!";
+      } else {
+        badge.className = "fb-pill fb-bad";
+        badge.textContent =
+          "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
+      }
+      badge.style.display = "inline-flex";
+    }
+
+    const resetBtn = document.getElementById(resetId);
+    if (resetBtn) {
+      resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        widget.shuffleLines();
+        const badge = document.getElementById(badgeId);
+        if (badge) badge.style.display = "none";
+      });
+    }
+
+    const fbBtn = document.getElementById(btnId);
+    if (fbBtn) {
+      fbBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        widget.getFeedback();            // let js-parsons mark lines
+        setTimeout(() => {               // then we count them
+          const wrong = scanWrongInDOM();
+          renderBadge(wrong);
+        }, 60);
+      });
+    }
+  }
 
     function renderBadge(count) {
       const badge = document.getElementById(badgeId);
