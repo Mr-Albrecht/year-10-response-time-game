@@ -1,8 +1,4 @@
-Here’s the complete, finished page — with comments removed from puzzle code, a clear description for the reaction-time game, Java puzzle rewritten in Python, a slightly-more-complex P2 using a robust UnitTest grader, and reliable “All correct / issues to fix” feedback badges.
 
-> Paste this over your existing file.
-
-```html
 ---
 layout: default
 title: "Multiple Parsons Problems on One Page"
