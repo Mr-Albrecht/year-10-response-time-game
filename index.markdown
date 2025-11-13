@@ -172,11 +172,12 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P2 -->
+  <!-- P2: Temp Calculator -->
   <div class="parsons-card">
-    <h2>2. What Should I Wear? (Selection)</h2>
+    <h2>2. Temperature Calculator (input + arithmetic)</h2>
     <p class="subtitle">
-      Write <code>advice_for(tempC)</code>: below 10 → “Wear a coat”; 10–14 → “Wear a jumper”; otherwise → “No coat needed”.
+      Ask for a temperature in °C, convert it to °F, and print a simple message:
+      freezing (≤ 0 °C), boiling (≥ 100 °C), or normal.
     </p>
 
     <div class="puzzle-grid">
@@ -193,14 +194,16 @@ title: "Multiple Parsons Problems on One Page"
     <script type="text/javascript">
     (function(){
       var initial =
-        "def advice_for(tempC):\n" +
-        "    if tempC < 10:\n" +
-        "        return 'Wear a coat'\n" +
-        "    elif tempC < 15:\n" +
-        "        return 'Wear a jumper'\n" +
-        "    else:\n" +
-        "        return 'No coat needed'\n" +
-        "print(advice_for(8))  # test call #distractor\n";
+        "temp_c = float(input('Enter the temperature in °C: '))\n" +
+        "temp_f = temp_c * 9 / 5 + 32\n" +
+        "print('Temperature in Fahrenheit:', temp_f)\n" +
+        "if temp_c <= 0:\n" +
+        "    print('It is freezing.')\n" +
+        "elif temp_c >= 100:\n" +
+        "    print('It is boiling.')\n" +
+        "else:\n" +
+        "    print('It is a normal temperature.')\n" +
+        "temp_k = temp_c + 273.15  #distractor\n";
 
       var p2 = new ParsonsWidget({
         sortableId: "p2-sortable",
@@ -225,8 +228,8 @@ title: "Multiple Parsons Problems on One Page"
   <div class="parsons-card">
     <h2>3. Exam Grade Classifier (multi-branch selection)</h2>
     <p class="subtitle">
-      Task: Ask the user for their exam mark out of 100, then print the grade:<br>
-      90 or more → <code>Grade: A</code>; 80–89 → <code>Grade: B</code>; 70–79 → <code>Grade: C</code>; below 70 → <code>Grade: D</code>.
+      Ask the user for their exam mark out of 100, then print the grade:<br>
+      90 or more → <code>Grade: A</code>, 80–89 → <code>Grade: B</code>, 70–79 → <code>Grade: C</code>, below 70 → <code>Grade: D</code>.
     </p>
 
     <div class="puzzle-grid">
@@ -237,231 +240,4 @@ title: "Multiple Parsons Problems on One Page"
     <div class="parsons-actions">
       <input id="p3-feedbackLink" value="Get Feedback" type="button" />
       <input id="p3-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p3-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
-    </div>
-
-    <script type="text/javascript">
-    (function(){
-      var initial =
-        "mark = int(input('Enter your exam mark out of 100: '))\n" +
-        "\n" +
-        "if mark >= 90:\n" +
-        "    print('Grade: A')\n" +
-        "elif mark >= 80:\n" +
-        "    print('Grade: B')\n" +
-        "elif mark >= 70:\n" +
-        "    print('Grade: C')\n" +
-        "else:\n" +
-        "    print('Grade: D')\n" +
-        "elif mark > 75:  #distractor\n" +
-        "elif mark >= 80  #distractor\n";
-
-      var p3 = new ParsonsWidget({
-        sortableId: "p3-sortable",
-        trashId: "p3-sortableTrash",
-        max_wrong_lines: 2,
-        grader: ParsonsWidget._graders.LineBasedGrader,
-        exec_limit: 2500,
-        can_indent: true,
-        x_indent: 50,
-        lang: "en",
-        show_feedback: true
-      });
-
-      p3.init(initial);
-      p3.shuffleLines();
-      attachParsonsFeedback("p3", p3);
-    })();
-    </script>
-  </div>
-
-  <!-- P4 -->
-  <div class="parsons-card">
-    <h2>4. Rollercoaster Ride Check (logical operators + validation)</h2>
-    <p class="subtitle">
-      Task: A rollercoaster has these rules: rider must be at least 120&nbsp;cm tall and at least 10&nbsp;years old.<br>
-      Ask for height (cm) and age (years). If either is less than 0, print <code>Invalid input.</code><br>
-      Otherwise, if they meet both conditions, print <code>You can ride the rollercoaster!</code>, else<br>
-      <code>Sorry, you are not allowed to ride.</code>
-    </p>
-
-    <div class="puzzle-grid">
-      <div id="p4-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 4"></div>
-      <div id="p4-sortable" class="sortable-code" aria-label="Workspace for puzzle 4"></div>
-    </div>
-
-    <div class="parsons-actions">
-      <input id="p4-feedbackLink" value="Get Feedback" type="button" />
-      <input id="p4-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p4-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
-    </div>
-
-    <script type="text/javascript">
-    (function(){
-      var initial =
-        "height = int(input('Enter your height in cm: '))\n" +
-        "age = int(input('Enter your age in years: '))\n" +
-        "\n" +
-        "if height < 0 or age < 0:\n" +
-        "    print('Invalid input.')\n" +
-        "elif height >= 120 and age >= 10:\n" +
-        "    print('You can ride the rollercoaster!')\n" +
-        "else:\n" +
-        "    print('Sorry, you are not allowed to ride.')\n" +
-        "height = 0  #distractor\n";
-
-      var p4 = new ParsonsWidget({
-        sortableId: "p4-sortable",
-        trashId: "p4-sortableTrash",
-        max_wrong_lines: 1,
-        grader: ParsonsWidget._graders.LineBasedGrader,
-        exec_limit: 2500,
-        can_indent: true,
-        x_indent: 50,
-        lang: "en",
-        show_feedback: true
-      });
-
-      p4.init(initial);
-      p4.shuffleLines();
-      attachParsonsFeedback("p4", p4);
-    })();
-    </script>
-  </div>
-
-  <!-- P5 -->
-  <div class="parsons-card">
-    <h2>5. Gaming Performance Feedback (mixed data types + conditions)</h2>
-    <p class="subtitle">
-      Task: Write a stats screen for an online game. Ask for:
-      player name (string), level (1–50), score (≥ 0), accuracy (0–100, float), and VIP status (yes/no, any capitalisation).<br>
-      If any values are impossible, print <code>Invalid data entered.</code><br>
-      Otherwise:
-      VIP + score ≥ 50000 + accuracy ≥ 70 → <code>VIP bonus unlocked for &lt;name&gt;!</code><br>
-      Else score ≥ 50000 + accuracy ≥ 70 → <code>Amazing performance, &lt;name&gt;!</code><br>
-      Else score ≥ 20000 → <code>Good job, &lt;name&gt;. Keep grinding.</code><br>
-      Else → <code>Keep practising, &lt;name&gt;.</code>
-    </p>
-
-    <div class="puzzle-grid">
-      <div id="p5-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 5"></div>
-      <div id="p5-sortable" class="sortable-code" aria-label="Workspace for puzzle 5"></div>
-    </div>
-
-    <div class="parsons-actions">
-      <input id="p5-feedbackLink" value="Get Feedback" type="button" />
-      <input id="p5-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p5-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
-    </div>
-
-    <script type="text/javascript">
-    (function(){
-      var initial =
-        "name = input('Enter your player name: ')\n" +
-        "level = int(input('Enter your level (1-50): '))\n" +
-        "score = int(input('Enter your score: '))\n" +
-        "accuracy = float(input('Enter your accuracy (0-100): '))\n" +
-        "vip = input('Are you a VIP player? (yes/no): ')\n" +
-        "vip = vip.lower()\n" +
-        "\n" +
-        "if level < 1 or level > 50 or score < 0 or accuracy < 0 or accuracy > 100:\n" +
-        "    print('Invalid data entered.')\n" +
-        "elif score >= 50000 and accuracy >= 70 and vip == 'yes':\n" +
-        "    print('VIP bonus unlocked for ' + name + '!')\n" +
-        "elif score >= 50000 and accuracy >= 70:\n" +
-        "    print('Amazing performance, ' + name + '!')\n" +
-        "elif score >= 20000:\n" +
-        "    print('Good job, ' + name + '. Keep grinding.')\n" +
-        "else:\n" +
-        "    print('Keep practising, ' + name + '.')\n" +
-        "print('Thanks for playing!')  #distractor\n";
-
-      var p5 = new ParsonsWidget({
-        sortableId: "p5-sortable",
-        trashId: "p5-sortableTrash",
-        max_wrong_lines: 1,
-        grader: ParsonsWidget._graders.LineBasedGrader,
-        exec_limit: 2500,
-        can_indent: true,
-        x_indent: 50,
-        lang: "en",
-        show_feedback: true
-      });
-
-      p5.init(initial);
-      p5.shuffleLines();
-      attachParsonsFeedback("p5", p5);
-    })();
-    </script>
-  </div>
-</div>
-
-<!-- Robust feedback helper (shared by all puzzles) -->
-<script>
-  function attachParsonsFeedback(prefix, widget) {
-    const sortableId = prefix + "-sortable";
-    const badgeId    = prefix + "-feedbackBadge";
-    const resetId    = prefix + "-newInstanceLink";
-    const btnId      = prefix + "-feedbackLink";
-
-    function scanWrongInDOM() {
-      const cont = document.getElementById(sortableId);
-      if (!cont) return 0;
-      let wrong = 0;
-      wrong += cont.querySelectorAll(
-        "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
-      ).length;
-      wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
-      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
-      return wrong;
-    }
-
-    function renderBadge(count) {
-      const badge = document.getElementById(badgeId);
-      if (!badge) return;
-      if (count === 0) {
-        badge.className = "fb-pill fb-ok";
-        badge.textContent = "✅ All correct!";
-      } else {
-        badge.className = "fb-pill fb-bad";
-        badge.textContent = "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
-      }
-      badge.style.display = "inline-flex";
-    }
-
-    function updateBadgeFromResult(result) {
-      let wrongCount = 0;
-      if (Array.isArray(result)) {
-        wrongCount = result.length;
-      } else if (result && typeof result === "object") {
-        if (Array.isArray(result.errors)) wrongCount = result.errors.length;
-        else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
-        else if (typeof result.errorCount === "number") wrongCount = result.errorCount;
-      }
-      if (wrongCount > 0) {
-        renderBadge(wrongCount);
-      } else {
-        setTimeout(() => renderBadge(scanWrongInDOM()), 90);
-      }
-    }
-
-    const resetBtn = document.getElementById(resetId);
-    if (resetBtn) {
-      resetBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        widget.shuffleLines();
-        const badge = document.getElementById(badgeId);
-        if (badge) badge.style.display = "none";
-      });
-    }
-
-    const fbBtn = document.getElementById(btnId);
-    if (fbBtn) {
-      fbBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const result = widget.getFeedback();
-        updateBadgeFromResult(result);
-      });
-    }
-  }
-</script>
+      <span
