@@ -112,6 +112,83 @@ title: "Multiple Parsons Problems on One Page"
   }
 </style>
 
+<!-- Shared feedback helper: MUST be defined before puzzles use it -->
+<script>
+  function attachParsonsFeedback(prefix, widget) {
+    const sortableId = prefix + "-sortable";
+    const badgeId    = prefix + "-feedbackBadge";
+    const resetId    = prefix + "-newInstanceLink";
+    const btnId      = prefix + "-feedbackLink";
+
+    function scanWrongInDOM() {
+      const cont = document.getElementById(sortableId);
+      if (!cont) return 0;
+      let wrong = 0;
+      wrong += cont.querySelectorAll(
+        "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
+      ).length;
+      wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
+      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
+      return wrong;
+    }
+
+    function renderBadge(count) {
+      const badge = document.getElementById(badgeId);
+      if (!badge) return;
+      if (count === 0) {
+        badge.className = "fb-pill fb-ok";
+        badge.textContent = "✅ All correct!";
+      } else {
+        badge.className = "fb-pill fb-bad";
+        badge.textContent = "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
+      }
+      badge.style.display = "inline-flex";
+    }
+
+    function updateBadgeFromResult(result) {
+      let wrongCount = 0;
+
+      if (Array.isArray(result)) {
+        wrongCount = result.length;
+      } else if (result && typeof result === "object") {
+        if (Array.isArray(result.errors))       wrongCount = result.errors.length;
+        else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
+        else if (typeof result.errorCount === "number") wrongCount = result.errorCount;
+      } else if (typeof result === "string") {
+        // crude heuristic: if result mentions "correct", assume 0; if "incorrect", assume some errors
+        if (/incorrect/i.test(result)) wrongCount = 1;
+        else wrongCount = 0;
+      }
+
+      // Fallback: if we still think there are 0 errors, check DOM highlights
+      if (wrongCount === 0) {
+        setTimeout(() => renderBadge(scanWrongInDOM()), 80);
+      } else {
+        renderBadge(wrongCount);
+      }
+    }
+
+    const resetBtn = document.getElementById(resetId);
+    if (resetBtn) {
+      resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        widget.shuffleLines();
+        const badge = document.getElementById(badgeId);
+        if (badge) badge.style.display = "none";
+      });
+    }
+
+    const fbBtn = document.getElementById(btnId);
+    if (fbBtn) {
+      fbBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const result = widget.getFeedback();
+        updateBadgeFromResult(result);
+      });
+    }
+  }
+</script>
+
 <div class="dc-container">
   <div class="page-hero">
     <span class="badge">Mr Albrecht's Parsons Problems · GCSE Computer Science · Dulwich College</span>
@@ -310,7 +387,7 @@ title: "Multiple Parsons Problems on One Page"
         "    print('You can ride the rollercoaster!')\n" +
         "else:\n" +
         "    print('Sorry, you are not allowed to ride.')\n" +
-        "height = 0  #distractor\n" +              // your example export line
+        "height = 0  #distractor\n" +
         "age = 0  #distractor\n" +
         "print('Welcome!')  #distractor\n";
 
@@ -400,73 +477,3 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 </div>
-
-<!-- Shared feedback helper -->
-<script>
-  function attachParsonsFeedback(prefix, widget) {
-    const sortableId = prefix + "-sortable";
-    const badgeId    = prefix + "-feedbackBadge";
-    const resetId    = prefix + "-newInstanceLink";
-    const btnId      = prefix + "-feedbackLink";
-
-    function scanWrongInDOM() {
-      const cont = document.getElementById(sortableId);
-      if (!cont) return 0;
-      let wrong = 0;
-      wrong += cont.querySelectorAll(
-        "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
-      ).length;
-      wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
-      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
-      return wrong;
-    }
-
-    function renderBadge(count) {
-      const badge = document.getElementById(badgeId);
-      if (!badge) return;
-      if (count === 0) {
-        badge.className = "fb-pill fb-ok";
-        badge.textContent = "✅ All correct!";
-      } else {
-        badge.className = "fb-pill fb-bad";
-        badge.textContent = "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
-      }
-      badge.style.display = "inline-flex";
-    }
-
-    function updateBadgeFromResult(result) {
-      let wrongCount = 0;
-      if (Array.isArray(result)) {
-        wrongCount = result.length;
-      } else if (result && typeof result === "object") {
-        if (Array.isArray(result.errors)) wrongCount = result.errors.length;
-        else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
-        else if (typeof result.errorCount === "number") wrongCount = result.errorCount;
-      }
-      if (wrongCount > 0) {
-        renderBadge(wrongCount);
-      } else {
-        setTimeout(() => renderBadge(scanWrongInDOM()), 90);
-      }
-    }
-
-    const resetBtn = document.getElementById(resetId);
-    if (resetBtn) {
-      resetBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        widget.shuffleLines();
-        const badge = document.getElementById(badgeId);
-        if (badge) badge.style.display = "none";
-      });
-    }
-
-    const fbBtn = document.getElementById(btnId);
-    if (fbBtn) {
-      fbBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const result = widget.getFeedback();
-        updateBadgeFromResult(result);
-      });
-    }
-  }
-</script>
