@@ -119,20 +119,20 @@ title: "Multiple Parsons Problems on One Page"
     <p>Drag code blocks to build working programs. Use <strong>Reset</strong> to reshuffle and <strong>Get Feedback</strong> to check your answer.</p>
   </div>
 
-  <!-- P1 -->
+  <!-- 1. Reaction Time -->
   <div class="parsons-card">
     <h2>1. Basic Reaction Time Game</h2>
     <p class="subtitle">
       Waits a random delay, displays <strong>GO!</strong>, starts a timer, and measures how fast the user presses Enter.
     </p>
     <div class="puzzle-grid">
-      <div id="p1-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 1"></div>
-      <div id="p1-sortable" class="sortable-code" aria-label="Workspace for puzzle 1"></div>
+      <div id="ReactionGame-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 1"></div>
+      <div id="ReactionGame-sortable" class="sortable-code" aria-label="Workspace for puzzle 1"></div>
     </div>
     <div class="parsons-actions">
-      <input id="p1-feedbackLink" value="Get Feedback" type="button" />
-      <input id="p1-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p1-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
+      <input id="ReactionGame-feedbackLink" value="Get Feedback" type="button" />
+      <input id="ReactionGame-newInstanceLink" value="Reset Problem" type="button" />
+      <span id="ReactionGame-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
@@ -153,9 +153,9 @@ title: "Multiple Parsons Problems on One Page"
         "reaction_time = end_time - start_time\n" +
         "print(f\\\"Your reaction time was {reaction_time:.3f} seconds!\\\")\n";
 
-      var p1 = new ParsonsWidget({
-        sortableId: "p1-sortable",
-        trashId: "p1-sortableTrash",
+      var widget = new ParsonsWidget({
+        sortableId: "ReactionGame-sortable",
+        trashId: "ReactionGame-sortableTrash",
         max_wrong_lines: 10,
         grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
@@ -165,14 +165,14 @@ title: "Multiple Parsons Problems on One Page"
         show_feedback: true
       });
 
-      p1.init(initial);
-      p1.shuffleLines();
-      attachParsonsFeedback("p1", p1);
+      widget.init(initial);
+      widget.shuffleLines();
+      attachParsonsFeedback("ReactionGame", widget);
     })();
     </script>
   </div>
 
-  <!-- P2: Temp Calculator -->
+  <!-- 2. Temp Calculator -->
   <div class="parsons-card">
     <h2>2. Temperature Calculator (input + arithmetic)</h2>
     <p class="subtitle">
@@ -181,14 +181,14 @@ title: "Multiple Parsons Problems on One Page"
     </p>
 
     <div class="puzzle-grid">
-      <div id="p2-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 2"></div>
-      <div id="p2-sortable" class="sortable-code" aria-label="Workspace for puzzle 2"></div>
+      <div id="TempCalculator-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 2"></div>
+      <div id="TempCalculator-sortable" class="sortable-code" aria-label="Workspace for puzzle 2"></div>
     </div>
 
     <div class="parsons-actions">
-      <input id="p2-feedbackLink" value="Get Feedback" type="button" />
-      <input id="p2-newInstanceLink" value="Reset Problem" type="button" />
-      <span id="p2-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
+      <input id="TempCalculator-feedbackLink" value="Get Feedback" type="button" />
+      <input id="TempCalculator-newInstanceLink" value="Reset Problem" type="button" />
+      <span id="TempCalculator-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
     </div>
 
     <script type="text/javascript">
@@ -205,9 +205,9 @@ title: "Multiple Parsons Problems on One Page"
         "    print('It is a normal temperature.')\n" +
         "temp_k = temp_c + 273.15  #distractor\n";
 
-      var p2 = new ParsonsWidget({
-        sortableId: "p2-sortable",
-        trashId: "p2-sortableTrash",
+      var widget = new ParsonsWidget({
+        sortableId: "TempCalculator-sortable",
+        trashId: "TempCalculator-sortableTrash",
         max_wrong_lines: 1,
         grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
@@ -217,14 +217,14 @@ title: "Multiple Parsons Problems on One Page"
         show_feedback: true
       });
 
-      p2.init(initial);
-      p2.shuffleLines();
-      attachParsonsFeedback("p2", p2);
+      widget.init(initial);
+      widget.shuffleLines();
+      attachParsonsFeedback("TempCalculator", widget);
     })();
     </script>
   </div>
 
-  <!-- P3 -->
+  <!-- 3. Exam Grade -->
   <div class="parsons-card">
     <h2>3. Exam Grade Classifier (multi-branch selection)</h2>
     <p class="subtitle">
@@ -233,11 +233,240 @@ title: "Multiple Parsons Problems on One Page"
     </p>
 
     <div class="puzzle-grid">
-      <div id="p3-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 3"></div>
-      <div id="p3-sortable" class="sortable-code" aria-label="Workspace for puzzle 3"></div>
+      <div id="ExamGrade-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 3"></div>
+      <div id="ExamGrade-sortable" class="sortable-code" aria-label="Workspace for puzzle 3"></div>
     </div>
 
     <div class="parsons-actions">
-      <input id="p3-feedbackLink" value="Get Feedback" type="button" />
-      <input id="p3-newInstanceLink" value="Reset Problem" type="button" />
-      <span
+      <input id="ExamGrade-feedbackLink" value="Get Feedback" type="button" />
+      <input id="ExamGrade-newInstanceLink" value="Reset Problem" type="button" />
+      <span id="ExamGrade-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
+    </div>
+
+    <script type="text/javascript">
+    (function(){
+      var initial =
+        "mark = int(input('Enter your exam mark out of 100: '))\n" +
+        "\n" +
+        "if mark >= 90:\n" +
+        "    print('Grade: A')\n" +
+        "elif mark >= 80:\n" +
+        "    print('Grade: B')\n" +
+        "elif mark >= 70:\n" +
+        "    print('Grade: C')\n" +
+        "else:\n" +
+        "    print('Grade: D')\n" +
+        "elif mark > 75:  #distractor\n" +
+        "elif mark >= 80  #distractor\n";
+
+      var widget = new ParsonsWidget({
+        sortableId: "ExamGrade-sortable",
+        trashId: "ExamGrade-sortableTrash",
+        max_wrong_lines: 2,
+        grader: ParsonsWidget._graders.LineBasedGrader,
+        exec_limit: 2500,
+        can_indent: true,
+        x_indent: 50,
+        lang: "en",
+        show_feedback: true
+      });
+
+      widget.init(initial);
+      widget.shuffleLines();
+      attachParsonsFeedback("ExamGrade", widget);
+    })();
+    </script>
+  </div>
+
+  <!-- 4. Rollercoaster -->
+  <div class="parsons-card">
+    <h2>4. Rollercoaster Ride Check (logical operators + validation)</h2>
+    <p class="subtitle">
+      Ask for height (cm) and age (years). If either is less than 0, print <code>Invalid input.</code><br>
+      Otherwise, if height ≥ 120 and age ≥ 10, print <code>You can ride the rollercoaster!</code>, else<br>
+      <code>Sorry, you are not allowed to ride.</code>
+    </p>
+
+    <div class="puzzle-grid">
+      <div id="RollercoasterRide-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 4"></div>
+      <div id="RollercoasterRide-sortable" class="sortable-code" aria-label="Workspace for puzzle 4"></div>
+    </div>
+
+    <div class="parsons-actions">
+      <input id="RollercoasterRide-feedbackLink" value="Get Feedback" type="button" />
+      <input id="RollercoasterRide-newInstanceLink" value="Reset Problem" type="button" />
+      <span id="RollercoasterRide-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
+    </div>
+
+    <script type="text/javascript">
+    (function(){
+      var initial =
+        "height = int(input('Enter your height in cm: '))\n" +
+        "age = int(input('Enter your age in years: '))\n" +
+        "\n" +
+        "if height < 0 or age < 0:\n" +
+        "    print('Invalid input.')\n" +
+        "elif height >= 120 and age >= 10:\n" +
+        "    print('You can ride the rollercoaster!')\n" +
+        "else:\n" +
+        "    print('Sorry, you are not allowed to ride.')\n" +
+        "height = 0  #distractor\n" +              // your example export line
+        "age = 0  #distractor\n" +
+        "print('Welcome!')  #distractor\n";
+
+      var widget = new ParsonsWidget({
+        sortableId: "RollercoasterRide-sortable",
+        trashId: "RollercoasterRide-sortableTrash",
+        max_wrong_lines: 3,
+        grader: ParsonsWidget._graders.LineBasedGrader,
+        exec_limit: 2500,
+        can_indent: true,
+        x_indent: 50,
+        lang: "en",
+        show_feedback: true
+      });
+
+      widget.init(initial);
+      widget.shuffleLines();
+      attachParsonsFeedback("RollercoasterRide", widget);
+    })();
+    </script>
+  </div>
+
+  <!-- 5. Gaming Feedback -->
+  <div class="parsons-card">
+    <h2>5. Gaming Performance Feedback (mixed data types + conditions)</h2>
+    <p class="subtitle">
+      Ask for: player name, level (1–50), score (≥ 0), accuracy (0–100), and VIP (yes/no).<br>
+      If any value impossible → <code>Invalid data entered.</code><br>
+      Otherwise:
+      VIP + score ≥ 50000 + accuracy ≥ 70 → <code>VIP bonus unlocked for &lt;name&gt;!</code><br>
+      Else score ≥ 50000 + accuracy ≥ 70 → <code>Amazing performance, &lt;name&gt;!</code><br>
+      Else score ≥ 20000 → <code>Good job, &lt;name&gt;. Keep grinding.</code><br>
+      Else → <code>Keep practising, &lt;name&gt;.</code>
+    </p>
+
+    <div class="puzzle-grid">
+      <div id="GamingFeedback-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 5"></div>
+      <div id="GamingFeedback-sortable" class="sortable-code" aria-label="Workspace for puzzle 5"></div>
+    </div>
+
+    <div class="parsons-actions">
+      <input id="GamingFeedback-feedbackLink" value="Get Feedback" type="button" />
+      <input id="GamingFeedback-newInstanceLink" value="Reset Problem" type="button" />
+      <span id="GamingFeedback-feedbackBadge" class="fb-pill fb-neutral" style="display:none;">Feedback</span>
+    </div>
+
+    <script type="text/javascript">
+    (function(){
+      var initial =
+        "name = input('Enter your player name: ')\n" +
+        "level = int(input('Enter your level (1-50): '))\n" +
+        "score = int(input('Enter your score: '))\n" +
+        "accuracy = float(input('Enter your accuracy (0-100): '))\n" +
+        "vip = input('Are you a VIP player? (yes/no): ')\n" +
+        "vip = vip.lower()\n" +
+        "\n" +
+        "if level < 1 or level > 50 or score < 0 or accuracy < 0 or accuracy > 100:\n" +
+        "    print('Invalid data entered.')\n" +
+        "elif score >= 50000 and accuracy >= 70 and vip == 'yes':\n" +
+        "    print('VIP bonus unlocked for ' + name + '!')\n" +
+        "elif score >= 50000 and accuracy >= 70:\n" +
+        "    print('Amazing performance, ' + name + '!')\n" +
+        "elif score >= 20000:\n" +
+        "    print('Good job, ' + name + '. Keep grinding.')\n" +
+        "else:\n" +
+        "    print('Keep practising, ' + name + '.')\n" +
+        "print('Thanks for playing!')  #distractor\n" +
+        "score = 0  #distractor\n" +
+        "vip = 'yes'  #distractor\n";
+
+      var widget = new ParsonsWidget({
+        sortableId: "GamingFeedback-sortable",
+        trashId: "GamingFeedback-sortableTrash",
+        max_wrong_lines: 3,
+        grader: ParsonsWidget._graders.LineBasedGrader,
+        exec_limit: 2500,
+        can_indent: true,
+        x_indent: 50,
+        lang: "en",
+        show_feedback: true
+      });
+
+      widget.init(initial);
+      widget.shuffleLines();
+      attachParsonsFeedback("GamingFeedback", widget);
+    })();
+    </script>
+  </div>
+</div>
+
+<!-- Shared feedback helper -->
+<script>
+  function attachParsonsFeedback(prefix, widget) {
+    const sortableId = prefix + "-sortable";
+    const badgeId    = prefix + "-feedbackBadge";
+    const resetId    = prefix + "-newInstanceLink";
+    const btnId      = prefix + "-feedbackLink";
+
+    function scanWrongInDOM() {
+      const cont = document.getElementById(sortableId);
+      if (!cont) return 0;
+      let wrong = 0;
+      wrong += cont.querySelectorAll(
+        "li.incorrect, li.ui-state-error, li.highlight-error, li.line-error, li.parsons-error"
+      ).length;
+      wrong += cont.querySelectorAll("li[title*='incorrect' i]").length;
+      wrong += cont.querySelectorAll("li[style*='rgb(255, 221, 221)'], li[style*='#ffdddd']").length;
+      return wrong;
+    }
+
+    function renderBadge(count) {
+      const badge = document.getElementById(badgeId);
+      if (!badge) return;
+      if (count === 0) {
+        badge.className = "fb-pill fb-ok";
+        badge.textContent = "✅ All correct!";
+      } else {
+        badge.className = "fb-pill fb-bad";
+        badge.textContent = "❌ " + count + " issue" + (count > 1 ? "s" : "") + " to fix";
+      }
+      badge.style.display = "inline-flex";
+    }
+
+    function updateBadgeFromResult(result) {
+      let wrongCount = 0;
+      if (Array.isArray(result)) {
+        wrongCount = result.length;
+      } else if (result && typeof result === "object") {
+        if (Array.isArray(result.errors)) wrongCount = result.errors.length;
+        else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
+        else if (typeof result.errorCount === "number") wrongCount = result.errorCount;
+      }
+      if (wrongCount > 0) {
+        renderBadge(wrongCount);
+      } else {
+        setTimeout(() => renderBadge(scanWrongInDOM()), 90);
+      }
+    }
+
+    const resetBtn = document.getElementById(resetId);
+    if (resetBtn) {
+      resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        widget.shuffleLines();
+        const badge = document.getElementById(badgeId);
+        if (badge) badge.style.display = "none";
+      });
+    }
+
+    const fbBtn = document.getElementById(btnId);
+    if (fbBtn) {
+      fbBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const result = widget.getFeedback();
+        updateBadgeFromResult(result);
+      });
+    }
+  }
+</script>
