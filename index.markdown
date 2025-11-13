@@ -1,4 +1,3 @@
-
 ---
 layout: default
 title: "Multiple Parsons Problems on One Page"
@@ -122,7 +121,7 @@ title: "Multiple Parsons Problems on One Page"
 
   <!-- P1 -->
   <div class="parsons-card">
-    <h2>Basic Reaction Time Game</h2>
+    <h2>1. Basic Reaction Time Game</h2>
     <p class="subtitle">
       Waits a random delay, displays <strong>GO!</strong>, starts a timer, and measures how fast the user presses Enter.
     </p>
@@ -175,8 +174,10 @@ title: "Multiple Parsons Problems on One Page"
 
   <!-- P2 -->
   <div class="parsons-card">
-    <h2>Parsons 2 — What Should I Wear? (Selection)</h2>
-    <p class="subtitle">Write <code>advice_for(tempC)</code>: below 10 → “Wear a coat”; 10–14 → “Wear a jumper”; otherwise → “No coat needed”.</p>
+    <h2>2. What Should I Wear? (Selection)</h2>
+    <p class="subtitle">
+      Write <code>advice_for(tempC)</code>: below 10 → “Wear a coat”; 10–14 → “Wear a jumper”; otherwise → “No coat needed”.
+    </p>
 
     <div class="puzzle-grid">
       <div id="p2-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 2"></div>
@@ -194,35 +195,23 @@ title: "Multiple Parsons Problems on One Page"
       var initial =
         "def advice_for(tempC):\n" +
         "    if tempC < 10:\n" +
-        "        return \"Wear a coat\"\n" +
+        "        return 'Wear a coat'\n" +
         "    elif tempC < 15:\n" +
-        "        return \"Wear a jumper\"\n" +
+        "        return 'Wear a jumper'\n" +
         "    else:\n" +
-        "        return \"No coat needed\"\n" +
-        "    while True:\n" +
-        "        pass\n";
-
-      var tests =
-        "import unittestparson\n" +
-        "class myTests(unittestparson.unittest):\n" +
-        "  def test_cold(self):\n" +
-        "    self.assertEqual(advice_for(5), 'Wear a coat')\n" +
-        "  def test_mild(self):\n" +
-        "    self.assertEqual(advice_for(12), 'Wear a jumper')\n" +
-        "  def test_warm(self):\n" +
-        "    self.assertEqual(advice_for(18), 'No coat needed')\n" +
-        "_test_result = myTests().main()";
+        "        return 'No coat needed'\n" +
+        "print(advice_for(8))  # test call #distractor\n";
 
       var p2 = new ParsonsWidget({
         sortableId: "p2-sortable",
         trashId: "p2-sortableTrash",
-        max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.UnitTestGrader,
+        max_wrong_lines: 1,
+        grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        unittests: tests
+        show_feedback: true
       });
 
       p2.init(initial);
@@ -234,8 +223,11 @@ title: "Multiple Parsons Problems on One Page"
 
   <!-- P3 -->
   <div class="parsons-card">
-    <h2>Parsons 3 — Max of Two (Selection + Functions)</h2>
-    <p class="subtitle">Create <code>max_of_two(a, b)</code> that returns the larger number using <code>if/else</code>.</p>
+    <h2>3. Exam Grade Classifier (multi-branch selection)</h2>
+    <p class="subtitle">
+      Task: Ask the user for their exam mark out of 100, then print the grade:<br>
+      90 or more → <code>Grade: A</code>; 80–89 → <code>Grade: B</code>; 70–79 → <code>Grade: C</code>; below 70 → <code>Grade: D</code>.
+    </p>
 
     <div class="puzzle-grid">
       <div id="p3-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 3"></div>
@@ -251,35 +243,29 @@ title: "Multiple Parsons Problems on One Page"
     <script type="text/javascript">
     (function(){
       var initial =
-        "def max_of_two(a, b):\n" +
-        "    if a > b:\n" +
-        "        return a\n" +
-        "    else:\n" +
-        "        return b\n" +
-        "    while True:\n" +
-        "        pass\n";
-
-      var tests =
-        "import unittestparson\n" +
-        "class myTests(unittestparson.unittest):\n" +
-        "  def test_0(self):\n" +
-        "    self.assertEqual(max_of_two(3,5), 5)\n" +
-        "  def test_1(self):\n" +
-        "    self.assertEqual(max_of_two(-2,-7), -2)\n" +
-        "  def test_2(self):\n" +
-        "    self.assertEqual(max_of_two(10,10), 10)\n" +
-        "_test_result = myTests().main()";
+        "mark = int(input('Enter your exam mark out of 100: '))\n" +
+        "\n" +
+        "if mark >= 90:\n" +
+        "    print('Grade: A')\n" +
+        "elif mark >= 80:\n" +
+        "    print('Grade: B')\n" +
+        "elif mark >= 70:\n" +
+        "    print('Grade: C')\n" +
+        "else:\n" +
+        "    print('Grade: D')\n" +
+        "elif mark > 75:  #distractor\n" +
+        "elif mark >= 80  #distractor\n";
 
       var p3 = new ParsonsWidget({
         sortableId: "p3-sortable",
         trashId: "p3-sortableTrash",
-        max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.UnitTestGrader,
+        max_wrong_lines: 2,
+        grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        unittests: tests
+        show_feedback: true
       });
 
       p3.init(initial);
@@ -289,10 +275,15 @@ title: "Multiple Parsons Problems on One Page"
     </script>
   </div>
 
-  <!-- P4 (Python) -->
+  <!-- P4 -->
   <div class="parsons-card">
-    <h2>Parsons 4 — Pass / Merit / Distinction (Python Selection)</h2>
-    <p class="subtitle">Write <code>grade(score)</code>: Distinction (≥75), Merit (≥60), else Pass. Return the grade as a string.</p>
+    <h2>4. Rollercoaster Ride Check (logical operators + validation)</h2>
+    <p class="subtitle">
+      Task: A rollercoaster has these rules: rider must be at least 120&nbsp;cm tall and at least 10&nbsp;years old.<br>
+      Ask for height (cm) and age (years). If either is less than 0, print <code>Invalid input.</code><br>
+      Otherwise, if they meet both conditions, print <code>You can ride the rollercoaster!</code>, else<br>
+      <code>Sorry, you are not allowed to ride.</code>
+    </p>
 
     <div class="puzzle-grid">
       <div id="p4-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 4"></div>
@@ -308,41 +299,27 @@ title: "Multiple Parsons Problems on One Page"
     <script type="text/javascript">
     (function(){
       var initial =
-        "def grade(score):\n" +
-        "    if score >= 75:\n" +
-        "        return \"Distinction\"\n" +
-        "    elif score >= 60:\n" +
-        "        return \"Merit\"\n" +
-        "    else:\n" +
-        "        return \"Pass\"\n" +
-        "    while True:\n" +
-        "        pass\n";
-
-      var tests =
-        "import unittestparson\n" +
-        "class myTests(unittestparson.unittest):\n" +
-        "  def test_dist(self):\n" +
-        "    self.assertEqual(grade(82), 'Distinction')\n" +
-        "  def test_merit(self):\n" +
-        "    self.assertEqual(grade(67), 'Merit')\n" +
-        "  def test_pass(self):\n" +
-        "    self.assertEqual(grade(41), 'Pass')\n" +
-        "  def test_boundary_merit(self):\n" +
-        "    self.assertEqual(grade(60), 'Merit')\n" +
-        "  def test_boundary_dist(self):\n" +
-        "    self.assertEqual(grade(75), 'Distinction')\n" +
-        "_test_result = myTests().main()";
+        "height = int(input('Enter your height in cm: '))\n" +
+        "age = int(input('Enter your age in years: '))\n" +
+        "\n" +
+        "if height < 0 or age < 0:\n" +
+        "    print('Invalid input.')\n" +
+        "elif height >= 120 and age >= 10:\n" +
+        "    print('You can ride the rollercoaster!')\n" +
+        "else:\n" +
+        "    print('Sorry, you are not allowed to ride.')\n" +
+        "height = 0  #distractor\n";
 
       var p4 = new ParsonsWidget({
         sortableId: "p4-sortable",
         trashId: "p4-sortableTrash",
-        max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.UnitTestGrader,
+        max_wrong_lines: 1,
+        grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        unittests: tests
+        show_feedback: true
       });
 
       p4.init(initial);
@@ -354,8 +331,17 @@ title: "Multiple Parsons Problems on One Page"
 
   <!-- P5 -->
   <div class="parsons-card">
-    <h2>Parsons 5 — Triangle Classifier (Selection + Validation)</h2>
-    <p class="subtitle">Write <code>triangle_type(a, b, c)</code> → one of <code>equilateral</code>, <code>isosceles</code>, <code>scalene</code>, or <code>invalid</code>. Return <code>invalid</code> if any side ≤ 0 or triangle inequality fails.</p>
+    <h2>5. Gaming Performance Feedback (mixed data types + conditions)</h2>
+    <p class="subtitle">
+      Task: Write a stats screen for an online game. Ask for:
+      player name (string), level (1–50), score (≥ 0), accuracy (0–100, float), and VIP status (yes/no, any capitalisation).<br>
+      If any values are impossible, print <code>Invalid data entered.</code><br>
+      Otherwise:
+      VIP + score ≥ 50000 + accuracy ≥ 70 → <code>VIP bonus unlocked for &lt;name&gt;!</code><br>
+      Else score ≥ 50000 + accuracy ≥ 70 → <code>Amazing performance, &lt;name&gt;!</code><br>
+      Else score ≥ 20000 → <code>Good job, &lt;name&gt;. Keep grinding.</code><br>
+      Else → <code>Keep practising, &lt;name&gt;.</code>
+    </p>
 
     <div class="puzzle-grid">
       <div id="p5-sortableTrash" class="sortable-code" aria-label="Trash area for puzzle 5"></div>
@@ -371,45 +357,35 @@ title: "Multiple Parsons Problems on One Page"
     <script type="text/javascript">
     (function(){
       var initial =
-        "def triangle_type(a, b, c):\n" +
-        "    if a <= 0 or b <= 0 or c <= 0:\n" +
-        "        return \"invalid\"\n" +
-        "    if a + b <= c or a + c <= b or b + c <= a:\n" +
-        "        return \"invalid\"\n" +
-        "    if a == b == c:\n" +
-        "        return \"equilateral\"\n" +
-        "    elif a == b or a == c or b == c:\n" +
-        "        return \"isosceles\"\n" +
-        "    else:\n" +
-        "        return \"scalene\"\n" +
-        "    while True:\n" +
-        "        pass\n";
-
-      var tests =
-        "import unittestparson\n" +
-        "class myTests(unittestparson.unittest):\n" +
-        "  def test_equilateral(self):\n" +
-        "    self.assertEqual(triangle_type(5,5,5), 'equilateral')\n" +
-        "  def test_isosceles(self):\n" +
-        "    self.assertEqual(triangle_type(4,4,3), 'isosceles')\n" +
-        "  def test_scalene(self):\n" +
-        "    self.assertEqual(triangle_type(3,4,5), 'scalene')\n" +
-        "  def test_invalid_zero(self):\n" +
-        "    self.assertEqual(triangle_type(0,4,5), 'invalid')\n" +
-        "  def test_invalid_ineq(self):\n" +
-        "    self.assertEqual(triangle_type(1,2,8), 'invalid')\n" +
-        "_test_result = myTests().main()";
+        "name = input('Enter your player name: ')\n" +
+        "level = int(input('Enter your level (1-50): '))\n" +
+        "score = int(input('Enter your score: '))\n" +
+        "accuracy = float(input('Enter your accuracy (0-100): '))\n" +
+        "vip = input('Are you a VIP player? (yes/no): ')\n" +
+        "vip = vip.lower()\n" +
+        "\n" +
+        "if level < 1 or level > 50 or score < 0 or accuracy < 0 or accuracy > 100:\n" +
+        "    print('Invalid data entered.')\n" +
+        "elif score >= 50000 and accuracy >= 70 and vip == 'yes':\n" +
+        "    print('VIP bonus unlocked for ' + name + '!')\n" +
+        "elif score >= 50000 and accuracy >= 70:\n" +
+        "    print('Amazing performance, ' + name + '!')\n" +
+        "elif score >= 20000:\n" +
+        "    print('Good job, ' + name + '. Keep grinding.')\n" +
+        "else:\n" +
+        "    print('Keep practising, ' + name + '.')\n" +
+        "print('Thanks for playing!')  #distractor\n";
 
       var p5 = new ParsonsWidget({
         sortableId: "p5-sortable",
         trashId: "p5-sortableTrash",
-        max_wrong_lines: 10,
-        grader: ParsonsWidget._graders.UnitTestGrader,
+        max_wrong_lines: 1,
+        grader: ParsonsWidget._graders.LineBasedGrader,
         exec_limit: 2500,
         can_indent: true,
         x_indent: 50,
         lang: "en",
-        unittests: tests
+        show_feedback: true
       });
 
       p5.init(initial);
@@ -456,7 +432,7 @@ title: "Multiple Parsons Problems on One Page"
     function updateBadgeFromResult(result) {
       let wrongCount = 0;
       if (Array.isArray(result)) {
-        wrongCount = result.length;                 // many builds return array of errors
+        wrongCount = result.length;
       } else if (result && typeof result === "object") {
         if (Array.isArray(result.errors)) wrongCount = result.errors.length;
         else if (Array.isArray(result.feedback)) wrongCount = result.feedback.length;
@@ -489,4 +465,3 @@ title: "Multiple Parsons Problems on One Page"
     }
   }
 </script>
-```
